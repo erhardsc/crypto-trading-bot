@@ -1,4 +1,5 @@
 import ccxt
+from apikeys import APIKeys
 import sys
 from poloniex import poloniex
 import urllib, json
@@ -16,12 +17,15 @@ class BotChart(object):
 		self.data = []
 
 		if (exchange == "poloniex"):
-			key = 'BOZKPSVH-9WUW6SDI-J1FFXN8G-B821FZIH'
-			secret = 'b52f6fbcb4e46ac6e4f46d9d241d4be9fa7943ec5a862637ff7de1f482df5a4b7699a6e0c5f3829905540246b8ebd3ae4743fdc1eea238df3d76bd4813a36e61'
+			apiKey_secret = APIKeys()
+			creds = apiKey_secret.poloniex_keys()
+			for cred in creds:
+				self.key = cred[1]
+				self.secret = cred[2]
 
 			self.exchange = ccxt.poloniex()
 
-			self.conn = poloniex(key, secret)
+			self.conn = poloniex(self.key, self.secret)
 
 			if backtest:
 				self.exchange.load_markets()
