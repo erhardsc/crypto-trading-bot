@@ -17,8 +17,10 @@ class BotChart(object):
 		self.data = []
 
 		if (exchange == "poloniex"):
+			# Grab Stored keys
 			apiKey_secret = APIKeys()
 			creds = apiKey_secret.poloniex_keys()
+			# Assign keys
 			for cred in creds:
 				self.key = cred[1]
 				self.secret = cred[2]
