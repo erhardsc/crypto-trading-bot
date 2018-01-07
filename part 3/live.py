@@ -1,13 +1,17 @@
 import sys, getopt
 import time
 
+import urllib2
+
 from botchart import BotChart
 from botstrategy import BotStrategy
 from botlog import BotLog
 from botcandlestick import BotCandlestick
 
+# Testing live price data
 def main(argv):
-	chart = BotChart("poloniex","BTC_XMR",300,False)
+	#chart = BotChart("poloniex","BTC_LTC",300,False)
+	chart = BotChart("poloniex","BTS/BTC","1d",False)
 
 	strategy = BotStrategy()
 
@@ -25,7 +29,7 @@ def main(argv):
 			candlesticks.append(developingCandlestick)
 			strategy.tick(developingCandlestick)
 			developingCandlestick = BotCandlestick()
-		
+
 		time.sleep(int(30))
 
 if __name__ == "__main__":

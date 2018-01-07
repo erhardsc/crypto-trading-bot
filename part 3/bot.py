@@ -47,7 +47,7 @@ def main(argv):
 
 	else:
 		chart = BotChart("poloniex","BTC_XMR",300,False)
-		
+
 		strategy = BotStrategy()
 
 		candlesticks = []
@@ -64,7 +64,7 @@ def main(argv):
 				candlesticks.append(developingCandlestick)
 				strategy.tick(developingCandlestick)
 				developingCandlestick = BotCandlestick()
-		
+
 			time.sleep(int(30))
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ class BotIndicators(object):
 	def __init__(self):
 		 pass
 
+	##### Moving Average ###### https://www.investopedia.com/terms/m/movingaverage.asp
 	def movingAverage(self, dataPoints, period):
 		if (len(dataPoints) > 1):
 			return sum(dataPoints[-period:]) / float(len(dataPoints[-period:]))
@@ -12,6 +13,7 @@ class BotIndicators(object):
 		if (len(dataPoints) > period -1):
 			return dataPoints[-1] * 100 / dataPoints[-period]
 
+	##### Exponential Moving Average ##### https://www.investopedia.com/terms/e/ema.asp
 	def EMA(self, prices, period):
 		x = numpy.asarray(prices)
 		weights = None
@@ -22,11 +24,13 @@ class BotIndicators(object):
 		a[:period] = a[period]
 		return a
 
+	###### Moving Average Convergence Divergence  ###### https://www.investopedia.com/terms/m/macd.asp
 	def MACD(self, prices, nslow=26, nfast=12):
 		emaslow = self.EMA(prices, nslow)
 		emafast = self.EMA(prices, nfast)
-		return emaslow, emafast, emafast - emaslow		
+		return emaslow, emafast, emafast - emaslow
 
+	###### Relative Strength Index ###### https://www.investopedia.com/terms/r/rsi.asp
 	def RSI (self, prices, period=14):
 		deltas = np.diff(prices)
 		seed = deltas[:period+1]
@@ -35,7 +39,7 @@ class BotIndicators(object):
 		rs = up/down
 		rsi = np.zeros_like(prices)
 		rsi[:period] = 100. - 100./(1. + rs)
- 
+
 		for i in range(period, len(prices)):
  			delta = deltas[i - 1]  # cause the diff is 1 shorter
   			if delta > 0:
@@ -44,7 +48,7 @@ class BotIndicators(object):
  			else:
  				upval = 0.
  				downval = -delta
- 
+
  			up = (up*(period - 1) + upval)/period
  			down = (down*(period - 1) + downval)/period
   			rs = up/down
