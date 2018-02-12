@@ -1,8 +1,6 @@
 import sys, getopt
 import time
 
-import urllib2
-
 from botchart import BotChart
 from botstrategy import BotStrategy
 from botlog import BotLog
