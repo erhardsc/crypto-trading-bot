@@ -1,5 +1,6 @@
 import config
 import ccxt
+import json
 from botcandlestick import BotCandlestick
 
 
@@ -27,20 +28,18 @@ class BotChart(object):
                         "start": self.startTime,
                         "end": self.endTime
                     })
-                # Assign OHLCV Candle Stick data
-                for ohlcvData in poloData:
-                    self.time = ohlcvData[0]
-                    self.openPrice = ohlcvData[1]
-                    self.highestPrice = ohlcvData[2]
-                    self.lowestPrice = ohlcvData[3]
-                    self.closingPrice = ohlcvData[4]
-                    self.volume = ohlcvData[5]
-                    if self.time and self.openPrice and self.highestPrice and self.lowestPrice and self.closingPrice and self.volume:
-                        self.data.append(
-                            BotCandlestick(
-                                86400, self.openPrice, self.closingPrice,
-                                self.highestPrice, self.lowestPrice, 0))
 
+                extended_data = self.exchange.last_json_response
+                for parsed_data in extended_data:
+                    if (parsed_data['open'] and parsed_data['close']
+                            and parsed_data['high'] and parsed_data['low']):
+                        self.data.append(
+                            BotCandlestick(self.period, parsed_data['open'],
+                                           parsed_data['close'],
+                                           parsed_data['high'],
+                                           parsed_data['low'],
+                                           parsed_data['weightedAverage']))
+                
     def getPoints(self):
         return self.data
 
