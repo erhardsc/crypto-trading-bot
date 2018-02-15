@@ -16,14 +16,20 @@ class BotIndicators(object):
 
     ##### Exponential Moving Average ##### https://www.investopedia.com/terms/e/ema.asp
     def EMA(self, prices, period):
-        x = numpy.asarray(prices)
+        x = np.asarray(prices)
         weights = None
-        weights = numpy.exp(numpy.linspace(-1., 0., period))
+        weights = np.exp(np.linspace(-1., 0., period))
         weights /= weights.sum()
 
-        a = numpy.convolve(x, weights, mode='full')[:len(x)]
+        a = np.convolve(x, weights, mode='full')[:len(x)]
         a[:period] = a[period]
         return a
+
+
+    # def EMA(self, v, k):
+    #     weights = exp(linspace(-1,0,k))
+    #     weights /= weights.sum()
+    #     return convolve(v, weights)[k-1:len(v)]﻿
 
     ###### Moving Average Convergence Divergence  ###### https://www.investopedia.com/terms/m/macd.asp
     def MACD(self, prices, nslow=26, nfast=12):

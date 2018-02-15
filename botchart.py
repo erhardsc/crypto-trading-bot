@@ -2,12 +2,11 @@ import config
 import ccxt
 from botcandlestick import BotCandlestick
 import pandas as pd
-import os
 
 
 class BotChart(object):
     def __init__(self, start, end, exchange, pair, period, backtest=True):
-        self.path = os.path.dirname(__file__)
+        self.path = config.CONSTS['PATH']
         self.pair = pair
         self.period = period
 
@@ -33,7 +32,7 @@ class BotChart(object):
                 extended_data = self.exchange.last_json_response
                 df = pd.DataFrame(extended_data)
 
-                df.to_csv(os.path.join(self.path, 'data/ohlv.csv'))
+                df.to_csv(config.os.path.join(self.path, 'data/ohlv.csv'))
 
                 for index, row in df.iterrows():
                     self.data.append(

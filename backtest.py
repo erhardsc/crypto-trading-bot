@@ -3,6 +3,9 @@ import getopt
 
 from botchart import BotChart
 from botstrategy import BotStrategy
+import botlog as output
+import pandas as pd
+import config
 
 
 # Testing historical price data.

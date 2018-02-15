@@ -2,13 +2,13 @@ from botlog import BotLog
 from botindicators import BotIndicators
 from bottrade import BotTrade
 import pandas as pd
-import os
+import config
 
 
 class BotStrategy():
     def __init__(self):
         self.output = BotLog()
-        self.path = os.path.dirname(__file__)
+        self.path = config.CONSTS['PATH']
         self.prices = []
         self.closes = []  # Needed for Momentum Indicator
         self.trades = []
@@ -17,18 +17,24 @@ class BotStrategy():
         self.numSimulTrades = 1
         self.indicators = BotIndicators()
         self.movingAVG = []
-        self.graph_data = {"date": [], "price": [], "movingAverage": []}
+        self.momentum = []
+        self.EMA = []
+        self.graph_data = {"date": [],
+                           "price": [],
+                           "movingAverage": [],
+                           "momentum": []}
 
     def tick(self, candlestick):
         self.currentPrice = float(candlestick.priceAverage)
         self.movingAVG = self.indicators.movingAverage(self.prices, 15)
+        self.momentum = self.indicators.momentum(self.prices, 15)
+        # self.EMA = self.indicators.EMA(self.prices, 15)
         self.prices.append(self.currentPrice)
         #self.currentClose = float(candlestick['close'])
         #self.closes.append(self.currentClose)
 
-        self.output.log(
-            "Price: " + str(candlestick.priceAverage) + "\tMoving Average: " +
-            str(self.movingAVG))
+        self.output.log("Price: " + str(candlestick.priceAverage) +
+                        "\tMoving Average: " + str(self.movingAVG))
 
         self.evaluatePositions(candlestick)
         self.updateOpenTrades()
@@ -56,9 +62,10 @@ class BotStrategy():
         self.graph_data['date'].append(candlestick.date.astype(int))
         self.graph_data['price'].append(self.currentPrice)
         self.graph_data['movingAverage'].append(self.movingAVG)
-
+        self.graph_data['momentum'].append(self.momentum)
+        # self.graph_data['EMA'].append(self.EMA)
         df = pd.DataFrame(self.graph_data)
-        df.to_csv(os.path.join(self.path, 'data/indicators.csv'))
+        df.to_csv(config.os.path.join(self.path, 'data/indicators.csv'))
 
     def updateOpenTrades(self):
         for trade in self.trades:
