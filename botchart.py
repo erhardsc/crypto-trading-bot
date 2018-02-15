@@ -1,16 +1,18 @@
 import config
 import ccxt
-import json
 from botcandlestick import BotCandlestick
+import pandas as pd
+import os
 
 
 class BotChart(object):
-    def __init__(self, exchange, pair, period, backtest=True):
+    def __init__(self, start, end, exchange, pair, period, backtest=True):
+        self.path = os.path.dirname(__file__)
         self.pair = pair
         self.period = period
 
-        self.startTime = 1504224000
-        self.endTime = 1506815999
+        self.startTime = start
+        self.endTime = end
 
         self.data = []
 
@@ -28,18 +30,17 @@ class BotChart(object):
                         "start": self.startTime,
                         "end": self.endTime
                     })
-
                 extended_data = self.exchange.last_json_response
-                for parsed_data in extended_data:
-                    if (parsed_data['open'] and parsed_data['close']
-                            and parsed_data['high'] and parsed_data['low']):
-                        self.data.append(
-                            BotCandlestick(self.period, parsed_data['open'],
-                                           parsed_data['close'],
-                                           parsed_data['high'],
-                                           parsed_data['low'],
-                                           parsed_data['weightedAverage']))
-                
+                df = pd.DataFrame(extended_data)
+
+                df.to_csv(os.path.join(self.path, 'data/ohlv.csv'))
+
+                for index, row in df.iterrows():
+                    self.data.append(
+                        BotCandlestick(self.period, row['date'], row['open'],
+                                       row['close'], row['high'], row['low'],
+                                       row['weightedAverage']))
+
     def getPoints(self):
         return self.data
 

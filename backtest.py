@@ -7,7 +7,9 @@ from botstrategy import BotStrategy
 
 # Testing historical price data.
 def main(argv):
-    chart = BotChart("poloniex", "BTS/BTC", "1d")
+    startTime = 1504224000
+    endTime = 1506815999
+    chart = BotChart(startTime, endTime, "poloniex", "BTS/BTC", "1d")
     strategy = BotStrategy()
 
     for candlestick in chart.getPoints():

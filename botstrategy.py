@@ -1,11 +1,14 @@
 from botlog import BotLog
 from botindicators import BotIndicators
 from bottrade import BotTrade
+import pandas as pd
+import os
 
 
 class BotStrategy():
     def __init__(self):
         self.output = BotLog()
+        self.path = os.path.dirname(__file__)
         self.prices = []
         self.closes = []  # Needed for Momentum Indicator
         self.trades = []
@@ -13,40 +16,49 @@ class BotStrategy():
         self.currentClose = ""
         self.numSimulTrades = 1
         self.indicators = BotIndicators()
+        self.movingAVG = []
+        self.graph_data = {"date": [], "price": [], "movingAverage": []}
 
     def tick(self, candlestick):
         self.currentPrice = float(candlestick.priceAverage)
+        self.movingAVG = self.indicators.movingAverage(self.prices, 15)
         self.prices.append(self.currentPrice)
         #self.currentClose = float(candlestick['close'])
         #self.closes.append(self.currentClose)
 
         self.output.log(
             "Price: " + str(candlestick.priceAverage) + "\tMoving Average: " +
-            str(self.indicators.movingAverage(self.prices, 15)))
+            str(self.movingAVG))
 
-        self.evaluatePositions()
+        self.evaluatePositions(candlestick)
         self.updateOpenTrades()
         self.showPositions()
 
-    def evaluatePositions(self):
+    def evaluatePositions(self, candlestick):
         openTrades = []
-        movingAVG = self.indicators.movingAverage(self.prices, 15)
 
         for trade in self.trades:
             if (trade.status == "OPEN"):
                 openTrades.append(trade)
 
         # Make sure NoneType is handled
-        if (movingAVG is None):
-            movingAVG = 0
+        if (self.movingAVG is None):
+            self.movingAVG = 0
 
         if (len(openTrades) < self.numSimulTrades):
-            if (self.currentPrice < movingAVG):
+            if (self.currentPrice < self.movingAVG):
                 self.trades.append(BotTrade(self.currentPrice, stopLoss=.0001))
 
         for trade in openTrades:
-            if (self.currentPrice > movingAVG):
+            if (self.currentPrice > self.movingAVG):
                 trade.close(self.currentPrice)
+
+        self.graph_data['date'].append(candlestick.date.astype(int))
+        self.graph_data['price'].append(self.currentPrice)
+        self.graph_data['movingAverage'].append(self.movingAVG)
+
+        df = pd.DataFrame(self.graph_data)
+        df.to_csv(os.path.join(self.path, 'data/indicators.csv'))
 
     def updateOpenTrades(self):
         for trade in self.trades:

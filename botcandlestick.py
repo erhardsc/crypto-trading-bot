@@ -8,12 +8,14 @@ from botlog import BotLog
 class BotCandlestick(object):
     def __init__(self,
                  period=300,
-                 open=None,
-                 close=None,
-                 high=None,
-                 low=None,
-                 priceAverage=None):
-        self.current = None
+                 date=0,
+                 open=0,
+                 close=0,
+                 high=0,
+                 low=0,
+                 priceAverage=0):
+        self.date = date
+        self.current = 0
         self.open = open
         self.close = close
         self.high = high
@@ -22,6 +24,7 @@ class BotCandlestick(object):
         self.period = period
         self.output = BotLog()
         self.priceAverage = priceAverage
+        self.graph_data = []
 
     def tick(self, price):
         self.current = float(price)
