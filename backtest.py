@@ -14,8 +14,10 @@ import numpy as np
 def main(argv):
     startTime = 0
     endTime = 1506815999
-    pair = "ETH/BTC"
-    chart = BotChart(startTime, endTime, "poloniex", pair, "1d")
+    pair = config.CONSTS['PAIR']
+    exchange = config.CONSTS['EXCHANGE']
+    period = config.CONSTS['PERIOD']
+    chart = BotChart(startTime, endTime, exchange, pair, period)
     strategy = BotStrategy()
 
     for candlestick in chart.getPoints():
