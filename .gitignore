@@ -3,3 +3,12 @@ __pycache__
 config.py
 .ropeproject
 data
+.hg
+.svn
+.DS_Store
+Thumbs.db
+desktop.ini
+*.pyc
+ __pycache__
+.ropeproject
+.ipynb_checkpoints
