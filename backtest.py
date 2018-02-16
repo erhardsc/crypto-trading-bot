@@ -14,7 +14,7 @@ import numpy as np
 def main(argv):
     startTime = 0
     endTime = 1506815999
-    pair = config.CONSTS['PAIR']
+    pair = config.CONSTS['BASE'] + "/" + config.CONSTS['QUOTE']
     exchange = config.CONSTS['EXCHANGE']
     period = config.CONSTS['PERIOD']
     chart = BotChart(startTime, endTime, exchange, pair, period)
