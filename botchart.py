@@ -32,7 +32,7 @@ class BotChart(object):
                 extended_data = self.exchange.last_json_response
                 df = pd.DataFrame(extended_data)
 
-                df.to_csv(config.os.path.join(self.path, 'data/ohlv.csv'))
+                df.to_csv(config.os.path.join(self.path, 'data/candlesticks.csv'))
 
                 for index, row in df.iterrows():
                     self.data.append(

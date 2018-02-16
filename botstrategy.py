@@ -19,10 +19,9 @@ class BotStrategy():
         self.movingAVG = []
         self.momentum = []
         self.EMA = []
-        self.graph_data = {"Date": [],
-                           "Price": [],
-                           "MovingAverage": [],
-                           "Momentum": []}
+        self.graph_data = {"date": [],
+                           "movingAverage": [],
+                           "momentum": []}
 
     def tick(self, candlestick):
         self.currentPrice = float(candlestick.priceAverage)
@@ -59,10 +58,9 @@ class BotStrategy():
             if (self.currentPrice > self.movingAVG):
                 trade.close(self.currentPrice)
 
-        self.graph_data['Date'].append(candlestick.date.astype(int))
-        self.graph_data['Price'].append(self.currentPrice)
-        self.graph_data['MovingAverage'].append(self.movingAVG)
-        self.graph_data['Momentum'].append(self.momentum)
+        self.graph_data['date'].append(candlestick.date.astype(int))
+        self.graph_data['movingAverage'].append(self.movingAVG)
+        self.graph_data['momentum'].append(self.momentum)
         # self.graph_data['EMA'].append(self.EMA)
         df = pd.DataFrame(self.graph_data)
         df.to_csv(config.os.path.join(self.path, 'data/indicators.csv'))
