@@ -20,7 +20,6 @@ class BotIndicators(object):
         weights = None
         weights = np.exp(np.linspace(-1., 0., period))
         weights /= weights.sum()
-
         a = np.convolve(x, weights, mode='full')[:len(x)]
         a[:period] = a[period]
         return a
