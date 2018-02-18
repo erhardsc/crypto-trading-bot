@@ -17,12 +17,15 @@ def main(argv):
     pair = config.CONSTS['BASE'] + "/" + config.CONSTS['QUOTE']
     exchange = config.CONSTS['EXCHANGE']
     period = config.CONSTS['PERIOD']
+    if(not config.CONSTS['VERBOSE']):
+        print('Gathering', pair, 'ticker data from', exchange)
     chart = BotChart(startTime, endTime, exchange, pair, period)
     strategy = BotStrategy()
 
     for candlestick in chart.getPoints():
         strategy.tick(candlestick)
 
+    print("Finished gathing data")
     # graph_data(pair)
 
 
