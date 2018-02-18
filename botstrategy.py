@@ -1,8 +1,8 @@
 from botlog import BotLog
 from botindicators import BotIndicators
 from bottrade import BotTrade
-import pandas as pd
 import config
+import pandas as pd
 
 
 class BotStrategy():

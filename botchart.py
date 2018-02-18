@@ -1,4 +1,4 @@
-import config
+from config import CONSTS, POLONIEX_CONFIG
 import ccxt
 from botcandlestick import BotCandlestick
 import pandas as pd
@@ -6,7 +6,7 @@ import pandas as pd
 
 class BotChart(object):
     def __init__(self, start, end, exchange, pair, period, backtest=True):
-        self.path = config.CONSTS['PATH']
+        self.path = CONSTS['PATH']
         self.pair = pair
         self.period = period
 
@@ -17,8 +17,8 @@ class BotChart(object):
 
         if (exchange == "poloniex"):
             # Grab Stored keys
-            self.key = config.POLONIEX_CONFIG['key']
-            self.secret = config.POLONIEX_CONFIG['secret']
+            self.key = POLONIEX_CONFIG['key']
+            self.secret = POLONIEX_CONFIG['secret']
             self.exchange = ccxt.poloniex()
 
             if backtest:
