@@ -1,4 +1,5 @@
-from config import CONSTS, POLONIEX_CONFIG
+from keys import POLONIEX_CONFIG
+import config
 import ccxt
 from botcandlestick import BotCandlestick
 import pandas as pd
@@ -6,7 +7,7 @@ import pandas as pd
 
 class BotChart(object):
     def __init__(self, start, end, exchange, pair, period, backtest=True):
-        self.path = CONSTS['PATH']
+        self.path = config.CONFIG['PATH']
         self.pair = pair
         self.period = period
 

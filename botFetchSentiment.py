@@ -1,4 +1,5 @@
-from config import REDDIT_CONFIG, TWEEPY_CONFIG
+import config
+from keys import REDDIT_CONFIG, TWEEPY_CONFIG
 import tweepy
 import praw
 

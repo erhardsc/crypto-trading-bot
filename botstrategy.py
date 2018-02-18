@@ -8,7 +8,7 @@ import pandas as pd
 class BotStrategy():
     def __init__(self):
         self.output = BotLog()
-        self.path = config.CONSTS['PATH']
+        self.path = config.CONFIG['PATH']
         self.prices = []
         self.closes = []  # Needed for Momentum Indicator
         self.trades = []

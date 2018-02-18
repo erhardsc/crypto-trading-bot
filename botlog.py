@@ -1,5 +1,5 @@
 from __future__ import print_function
-from config import CONSTS
+from config import CONFIG
 import sys
 from pyspin.spin import Default, Spinner
 
@@ -9,7 +9,7 @@ class BotLog(object):
         self.spin = Spinner(Default)
 
     def log(self, message):
-        if (CONSTS['VERBOSE']):
+        if (CONFIG['VERBOSE']):
             print(message)
         else:
             print(u"\r{0}".format(self.spin.next()), end="")

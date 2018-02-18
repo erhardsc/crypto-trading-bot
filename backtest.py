@@ -4,7 +4,7 @@ import datetime as dt
 from botchart import BotChart
 from botstrategy import BotStrategy
 import pandas as pd
-from config import CONSTS
+from config import CONFIG
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdate
 import numpy as np
@@ -14,10 +14,10 @@ import numpy as np
 def main(argv):
     startTime = 0
     endTime = 1506815999
-    pair = CONSTS['BASE'] + "/" + CONSTS['QUOTE']
-    exchange = CONSTS['EXCHANGE']
-    period = CONSTS['PERIOD']
-    if(not CONSTS['VERBOSE']):
+    pair = CONFIG['BASE'] + "/" + CONFIG['QUOTE']
+    exchange = CONFIG['EXCHANGE']
+    period = CONFIG['PERIOD']
+    if(not CONFIG['VERBOSE']):
         print('Gathering', pair, 'ticker data from', exchange)
     chart = BotChart(startTime, endTime, exchange, pair, period)
     strategy = BotStrategy()
@@ -30,7 +30,7 @@ def main(argv):
 
 
 def graph_data(pair):
-    path = CONSTS['PATH']
+    path = CONFIG['PATH']
     plt.title(pair)
     df = pd.read_csv(path + "/data/indicators.csv", parse_dates=True, infer_datetime_format=True, index_col=0)
     date = df["Date"]

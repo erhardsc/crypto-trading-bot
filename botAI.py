@@ -1,10 +1,10 @@
-import config
+from config import CONFIG
 import pandas as pd
 import sys
 
 
 def main(argv):
-    path = config.CONSTS["PATH"]
+    path = CONFIG["PATH"]
     indicators = pd.read_csv(path + "/data/indicators.csv")
     indicators = indicators[['date','momentum','movingAverage']]
     candlesticks = pd.read_csv(path + "/data/candlesticks.csv")
