@@ -11,11 +11,15 @@ class BotIndicators(object):
             return sum(dataPoints[-period:]) / float(len(dataPoints[-period:]))
 
     def momentum(self, dataPoints, period=14):
+        if(len(dataPoints) <= period):
+            return 0
         if (len(dataPoints) > period - 1):
             return dataPoints[-1] * 100 / dataPoints[-period]
 
     ##### Exponential Moving Average ##### https://www.investopedia.com/terms/e/ema.asp
     def EMA(self, prices, period):
+        if(len(prices) <= period):
+            return 0
         x = np.asarray(prices)
         weights = None
         weights = np.exp(np.linspace(-1., 0., period))
@@ -23,12 +27,6 @@ class BotIndicators(object):
         a = np.convolve(x, weights, mode='full')[:len(x)]
         a[:period] = a[period]
         return a
-
-
-    # def EMA(self, v, k):
-    #     weights = exp(linspace(-1,0,k))
-    #     weights /= weights.sum()
-    #     return convolve(v, weights)[k-1:len(v)]﻿
 
     ###### Moving Average Convergence Divergence  ###### https://www.investopedia.com/terms/m/macd.asp
     def MACD(self, prices, nslow=26, nfast=12):
@@ -38,6 +36,8 @@ class BotIndicators(object):
 
     ###### Relative Strength Index ###### https://www.investopedia.com/terms/r/rsi.asp
     def RSI(self, prices, period=14):
+        if(len(prices) <= period):
+            return 0
         deltas = np.diff(prices)
         seed = deltas[:period + 1]
         up = seed[seed >= 0].sum() / period

@@ -1,39 +1,41 @@
+import config
 from botlog import BotLog
 from botindicators import BotIndicators
 from bottrade import BotTrade
-import config
 import pandas as pd
 
 
 class BotStrategy():
     def __init__(self):
+        if(not config.CONFIG["VERBOSE"]):
+            print("Calculating indicators")
         self.output = BotLog()
         self.path = config.CONFIG['PATH']
         self.prices = []
-        self.closes = []  # Needed for Momentum Indicator
+        self.closes = []
         self.trades = []
+        self.movingAVG = []
+        self.momentum = []
+        self.RSI = []
         self.currentPrice = ""
         self.currentClose = ""
         self.numSimulTrades = 1
         self.indicators = BotIndicators()
-        self.movingAVG = []
-        self.momentum = []
-        self.EMA = []
         self.graph_data = {"date": [],
                            "movingAverage": [],
-                           "momentum": []}
+                           "momentum": [],
+                           "RSI": []
+                           }
 
     def tick(self, candlestick):
         self.currentPrice = float(candlestick.priceAverage)
+        self.currentClose = float(candlestick.close)
         self.movingAVG = self.indicators.movingAverage(self.prices, 15)
-        self.momentum = self.indicators.momentum(self.prices, 15)
-        # self.EMA = self.indicators.EMA(self.prices, 15)
-        # print(self.EMA)
-        # self.EMA = self.indicators.EMA(self.prices, 15)
+        self.momentum = self.indicators.momentum(self.closes, 15)
+        self.RSI = self.indicators.RSI(self.prices, 15)
+        self.MACD = self.indicators.MACD(self.prices)
         self.prices.append(self.currentPrice)
-        #self.currentClose = float(candlestick['close'])
-        #self.closes.append(self.currentClose)
-
+        self.closes.append(self.currentClose)
         self.output.log("Price: " + str(candlestick.priceAverage) +
                         "\tMoving Average: " + str(self.movingAVG))
 
@@ -63,7 +65,8 @@ class BotStrategy():
         self.graph_data['date'].append(candlestick.date.astype(int))
         self.graph_data['movingAverage'].append(self.movingAVG)
         self.graph_data['momentum'].append(self.momentum)
-        # self.graph_data['EMA'].append(self.EMA)
+        self.graph_data['RSI'].append(self.RSI)
+
         df = pd.DataFrame(self.graph_data)
         df.to_csv(config.os.path.join(self.path, 'data/indicators.csv'))
 

@@ -1,8 +1,7 @@
+from botlog import BotLog
 import sys
 import getopt
 import time
-
-from botlog import BotLog
 
 
 class BotCandlestick(object):

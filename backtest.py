@@ -12,13 +12,15 @@ import numpy as np
 
 # Testing historical price data.
 def main(argv):
-    startTime = 0
-    endTime = 1506815999
+    startTime = CONFIG["START"]
+    endTime = CONFIG["END"]
     pair = CONFIG['BASE'] + "/" + CONFIG['QUOTE']
     exchange = CONFIG['EXCHANGE']
     period = CONFIG['PERIOD']
+
     if(not CONFIG['VERBOSE']):
         print('Gathering', pair, 'ticker data from', exchange)
+
     chart = BotChart(startTime, endTime, exchange, pair, period)
     strategy = BotStrategy()
 

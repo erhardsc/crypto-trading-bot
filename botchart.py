@@ -1,7 +1,7 @@
-from keys import POLONIEX_CONFIG
-import config
-import ccxt
 from botcandlestick import BotCandlestick
+import ccxt
+import config
+from keys import POLONIEX_CONFIG
 import pandas as pd
 
 
@@ -25,7 +25,7 @@ class BotChart(object):
             if backtest:
                 self.exchange.load_markets()
                 # Fetch public array of ohlcv data
-                poloData = self.exchange.fetch_ohlcv(
+                self.exchange.fetch_ohlcv(
                     self.pair, self.period, None, None, {
                         "start": self.startTime,
                         "end": self.endTime
