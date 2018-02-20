@@ -37,7 +37,7 @@ class BotIndicators(object):
     ###### Relative Strength Index ###### https://www.investopedia.com/terms/r/rsi.asp
     def RSI(self, prices, period=14):
         if(len(prices) <= period):
-            return 0
+            return 50
         deltas = np.diff(prices)
         seed = deltas[:period + 1]
         up = seed[seed >= 0].sum() / period
