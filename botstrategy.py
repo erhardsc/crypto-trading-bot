@@ -6,9 +6,10 @@ import pandas as pd
 
 
 class BotStrategy():
-    def __init__(self):
+    def __init__(self, pair):
         if(not config.CONFIG["VERBOSE"]):
             print("Calculating indicators")
+        self.pair = pair
         self.output = BotLog()
         self.path = config.CONFIG['PATH']
         self.prices = []
@@ -68,7 +69,7 @@ class BotStrategy():
         self.graph_data['RSI'].append(self.RSI)
 
         df = pd.DataFrame(self.graph_data)
-        df.to_csv(config.os.path.join(self.path, 'data/indicators.csv'))
+        df.to_csv(config.os.path.join(self.path, 'data/' + self.pair.replace('/','-') + "/" + 'indicators.csv'))
 
     def updateOpenTrades(self):
         for trade in self.trades:

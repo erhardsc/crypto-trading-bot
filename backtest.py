@@ -8,20 +8,21 @@ import sys
 def main(argv):
     startTime = CONFIG["START"]
     endTime = CONFIG["END"]
-    pair = CONFIG['BASE'] + "/" + CONFIG['QUOTE']
+    # pair = CONFIG['BASE'] + "/" + CONFIG['QUOTE']
     exchange = CONFIG['EXCHANGE']
     period = CONFIG['PERIOD']
 
-    if(not CONFIG['VERBOSE']):
-        print('Gathering', pair, 'ticker data from', exchange)
+    for pair in CONFIG['PAIRS']:
+        if(not CONFIG['VERBOSE']):
+            print('Gathering', pair, 'ticker data from', exchange)
 
-    chart = BotChart(startTime, endTime, exchange, pair, period)
-    strategy = BotStrategy()
+        chart = BotChart(startTime, endTime, exchange, pair, period)
+        strategy = BotStrategy(pair)
 
-    for candlestick in chart.getPoints():
-        strategy.tick(candlestick)
+        for candlestick in chart.getPoints():
+            strategy.tick(candlestick)
 
-    print("Finished gathing data")
+        print("Finished gathing data for " + pair + "\n")
 
 
 if __name__ == "__main__":

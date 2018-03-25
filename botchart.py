@@ -9,6 +9,7 @@ class BotChart(object):
     def __init__(self, start, end, exchange, pair, period, backtest=True):
         self.path = config.CONFIG['PATH']
         self.pair = pair
+        self.pairs_dir = "data/" + self.pair.replace('/','-')
         self.period = period
 
         self.startTime = start
@@ -33,7 +34,9 @@ class BotChart(object):
                 extended_data = self.exchange.last_json_response
                 df = pd.DataFrame(extended_data)
 
-                df.to_csv(config.os.path.join(self.path, 'data/candlesticks.csv'))
+                config.create_dir(self.pairs_dir)
+
+                df.to_csv(config.os.path.join(self.path, self.pairs_dir + "/" + 'candlesticks.csv'))
 
                 for index, row in df.iterrows():
                     self.data.append(
