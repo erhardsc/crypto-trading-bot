@@ -3,6 +3,7 @@ import ccxt
 import config
 from keys import POLONIEX_CONFIG
 import pandas as pd
+import util as util
 
 
 class BotChart(object):
@@ -34,9 +35,9 @@ class BotChart(object):
                 extended_data = self.exchange.last_json_response
                 df = pd.DataFrame(extended_data)
 
-                config.create_dir(self.pairs_dir)
+                util.create_dir(self.pairs_dir)
 
-                df.to_csv(config.os.path.join(self.path, self.pairs_dir + "/" + 'candlesticks.csv'))
+                df.to_csv(util.os.path.join(self.path, self.pairs_dir + "/" + 'candlesticks.csv'))
 
                 for index, row in df.iterrows():
                     self.data.append(

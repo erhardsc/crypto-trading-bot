@@ -3,6 +3,7 @@ from botlog import BotLog
 from botindicators import BotIndicators
 from bottrade import BotTrade
 import pandas as pd
+import util as util
 
 
 class BotStrategy():
@@ -69,7 +70,7 @@ class BotStrategy():
         self.graph_data['RSI'].append(self.RSI)
 
         df = pd.DataFrame(self.graph_data)
-        df.to_csv(config.os.path.join(self.path, 'data/' + self.pair.replace('/','-') + "/" + 'indicators.csv'))
+        df.to_csv(util.os.path.join(self.path, 'data/' + self.pair.replace('/','-') + "/" + 'indicators.csv'))
 
     def updateOpenTrades(self):
         for trade in self.trades:
