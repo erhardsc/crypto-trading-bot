@@ -20,7 +20,12 @@ CONFIG = {
     "EXCHANGE": "poloniex",
     "START": 0,
     "END": now,
-    "PAIRS": ["ETH/BTC","LTC/BTC","BTS/BTC", "STEEM/BTC", 'BTC/USDT'],
+    "PAIRS": {
+        "ETH/BTC": 0.4, # Portfolio allocation amount  
+        "LTC/BTC": 0.4,
+        "BTS/BTC": 0.1,
+        "STEEM/BTC": 0.1
+    },
     "PERIOD": "1d",
     "BASE": "ETH",
     "QUOTE": "BTC",

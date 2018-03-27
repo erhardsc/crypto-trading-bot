@@ -11,8 +11,9 @@ def main(argv):
     # pair = CONFIG['BASE'] + "/" + CONFIG['QUOTE']
     exchange = CONFIG['EXCHANGE']
     period = CONFIG['PERIOD']
+    pairs = CONFIG['PAIRS']
 
-    for pair in CONFIG['PAIRS']:
+    for pair in pairs:
         if(not CONFIG['VERBOSE']):
             print('Gathering', pair, 'ticker data from', exchange)
 
