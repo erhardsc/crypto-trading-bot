@@ -5,7 +5,7 @@ CONFIG = {
     "VERBOSE": False,
     "EXCHANGE": "poloniex",
     "START": 0,
-    "END": util.get_time(),
+    "END": util.get_current_epoch(),
     "PAIRS": {
         "ETH/BTC": 0.4, # Portfolio allocation amount
         "LTC/BTC": 0.4,
