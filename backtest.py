@@ -25,6 +25,5 @@ def main(argv):
 
         print("Finished gathing data for " + pair + "\n")
 
-
 if __name__ == "__main__":
     main(sys.argv[1:])
